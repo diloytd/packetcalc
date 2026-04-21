@@ -5,6 +5,9 @@
       "path": "./apps/web"
     },
     {
+      "path": "./packages/roller-blind-viewer"
+    },
+    {
       "path": "./packages/shared"
     }
   ]

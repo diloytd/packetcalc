@@ -5,11 +5,20 @@
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "types": ["vite/client", "node"],
     "useDefineForClassFields": true,
+    "jsx": "react-jsx",
     "noEmit": true,
     "baseUrl": ".",
     "paths": {
+      "@roller-blind-viewer/roller-blind-viewer": [
+        "../../packages/roller-blind-viewer/src/index.ts"
+      ],
       "@roller-blind-viewer/shared": ["../../packages/shared/src/index.ts"]
     }
   },
-  "include": ["src", "vite.config.ts", "../../packages/shared/src"]
+  "include": [
+    "src",
+    "vite.config.ts",
+    "../../packages/roller-blind-viewer/src",
+    "../../packages/shared/src"
+  ]
 }
