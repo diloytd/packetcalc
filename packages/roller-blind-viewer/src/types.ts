@@ -4,5 +4,6 @@ export type RollerBlindViewerProps = {
   depth?: number;
   fabricColor: string;
   hardwareColor: string;
+  wallColor?: string;
   className?: string;
 };

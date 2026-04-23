@@ -43,9 +43,9 @@ const buildMeasurements = (
   const blindHeight = clampValue(height, 700, 2400) / 1000;
   const blindDepth = clampValue(depth, 90, 320) / 1000;
   const visibleBlindHeight = Math.min(blindHeight, 2.15);
-  const windowWidth = Math.max(blindWidth * 0.86, 0.82);
-  const windowHeight = clampValue(visibleBlindHeight * 0.8, 1.1, 1.72);
-  const roomWidth = Math.max(windowWidth + 2.6, 4.6);
+  const windowWidth = 1.38;
+  const windowHeight = 1.28;
+  const roomWidth = Math.max(windowWidth + 2.6, blindWidth + 2.2, 4.6);
   const roomHeight = 3.05;
   const roomDepth = 5.8;
   const wallZ = -2.15;
@@ -70,7 +70,13 @@ const buildMeasurements = (
   };
 };
 
-const RoomShell = ({ measurements }: { measurements: SceneMeasurements }) => {
+const RoomShell = ({
+  measurements,
+  wallColor,
+}: {
+  measurements: SceneMeasurements;
+  wallColor: string;
+}) => {
   const {
     roomWidth,
     roomHeight,
@@ -99,17 +105,22 @@ const RoomShell = ({ measurements }: { measurements: SceneMeasurements }) => {
 
       <mesh position={[-roomWidth / 2, roomHeight / 2, 0]} rotation={[0, Math.PI / 2, 0]}>
         <planeGeometry args={[roomDepth, roomHeight]} />
-        <meshStandardMaterial color="#f5efe6" roughness={0.95} />
+        <meshStandardMaterial color={wallColor} roughness={0.95} />
       </mesh>
 
       <mesh position={[roomWidth / 2, roomHeight / 2, 0]} rotation={[0, -Math.PI / 2, 0]}>
         <planeGeometry args={[roomDepth, roomHeight]} />
-        <meshStandardMaterial color="#f4ede2" roughness={0.95} />
+        <meshStandardMaterial color={wallColor} roughness={0.95} />
+      </mesh>
+
+      <mesh position={[0, roomHeight / 2, roomDepth / 2]} rotation={[0, Math.PI, 0]}>
+        <planeGeometry args={[roomWidth, roomHeight]} />
+        <meshStandardMaterial color={wallColor} roughness={0.95} />
       </mesh>
 
       <mesh position={[0, roomHeight - wallThickness / 2, wallZ]} castShadow receiveShadow>
         <boxGeometry args={[roomWidth, wallThickness, wallThickness]} />
-        <meshStandardMaterial color="#fbf7f2" roughness={0.95} />
+        <meshStandardMaterial color={wallColor} roughness={0.95} />
       </mesh>
 
       <mesh
@@ -118,7 +129,7 @@ const RoomShell = ({ measurements }: { measurements: SceneMeasurements }) => {
         receiveShadow
       >
         <boxGeometry args={[roomWidth, windowBottom, wallThickness]} />
-        <meshStandardMaterial color="#fbf7f2" roughness={0.95} />
+        <meshStandardMaterial color={wallColor} roughness={0.95} />
       </mesh>
 
       <mesh
@@ -127,7 +138,7 @@ const RoomShell = ({ measurements }: { measurements: SceneMeasurements }) => {
         receiveShadow
       >
         <boxGeometry args={[roomWidth, roomHeight - windowTop, wallThickness]} />
-        <meshStandardMaterial color="#fbf7f2" roughness={0.95} />
+        <meshStandardMaterial color={wallColor} roughness={0.95} />
       </mesh>
 
       <mesh
@@ -136,7 +147,7 @@ const RoomShell = ({ measurements }: { measurements: SceneMeasurements }) => {
         receiveShadow
       >
         <boxGeometry args={[wallSideWidth, windowHeight, wallThickness]} />
-        <meshStandardMaterial color="#fbf7f2" roughness={0.95} />
+        <meshStandardMaterial color={wallColor} roughness={0.95} />
       </mesh>
 
       <mesh
@@ -145,26 +156,9 @@ const RoomShell = ({ measurements }: { measurements: SceneMeasurements }) => {
         receiveShadow
       >
         <boxGeometry args={[wallSideWidth, windowHeight, wallThickness]} />
-        <meshStandardMaterial color="#fbf7f2" roughness={0.95} />
+        <meshStandardMaterial color={wallColor} roughness={0.95} />
       </mesh>
 
-      <mesh
-        position={[0, 0.42, wallZ + 0.18]}
-        castShadow
-        receiveShadow
-      >
-        <boxGeometry args={[windowWidth + 0.6, 0.16, 0.42]} />
-        <meshStandardMaterial color="#d3bda3" roughness={0.8} />
-      </mesh>
-
-      <mesh position={[-roomWidth / 2 + 0.6, 0.45, -0.9]} castShadow receiveShadow>
-        <boxGeometry args={[0.8, 0.9, 0.42]} />
-        <meshStandardMaterial color="#d9cab8" roughness={0.88} />
-      </mesh>
-      <mesh position={[-roomWidth / 2 + 0.6, 0.97, -0.9]} castShadow receiveShadow>
-        <boxGeometry args={[0.86, 0.08, 0.48]} />
-        <meshStandardMaterial color="#c9b49b" roughness={0.8} />
-      </mesh>
     </>
   );
 };
@@ -179,7 +173,7 @@ const ExteriorScene = ({ measurements }: { measurements: SceneMeasurements }) =>
         <meshStandardMaterial color="#b9dfff" roughness={1} />
       </mesh>
 
-      <mesh position={[0, windowCenterY - 0.85, -0.3]} rotation={[-Math.PI / 2, 0, 0]}>
+      <mesh position={[0, windowCenterY - 0.85, -1]} rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[windowWidth + 3.2, 4.8]} />
         <meshStandardMaterial color="#8cbc73" roughness={1} />
       </mesh>
@@ -327,7 +321,13 @@ const ViewerScene = ({
   depth,
   fabricColor,
   hardwareColor,
-}: Required<Pick<RollerBlindViewerProps, "width" | "height" | "depth" | "fabricColor" | "hardwareColor">>) => {
+  wallColor,
+}: Required<
+  Pick<
+    RollerBlindViewerProps,
+    "width" | "height" | "depth" | "fabricColor" | "hardwareColor" | "wallColor"
+  >
+>) => {
   const measurements = useMemo(
     () => buildMeasurements(width, height, depth),
     [depth, height, width],
@@ -345,7 +345,7 @@ const ViewerScene = ({
         shadow-mapSize-height={2048}
       />
 
-      <RoomShell measurements={measurements} />
+      <RoomShell measurements={measurements} wallColor={wallColor} />
       <ExteriorScene measurements={measurements} />
       <WindowAndBlind
         measurements={measurements}
@@ -362,6 +362,7 @@ export const RollerBlindViewer = ({
   depth = 140,
   fabricColor,
   hardwareColor,
+  wallColor = "#dce9ff",
   className,
 }: RollerBlindViewerProps) => {
   const safeWidth = clampValue(width, 500, 2600);
@@ -391,7 +392,6 @@ export const RollerBlindViewer = ({
       >
         <Canvas shadows dpr={[1, 2]} style={{ width: "100%", height: "100%" }}>
           <color attach="background" args={["#eaf1ff"]} />
-          <fog attach="fog" args={["#eaf1ff", 4.5, 10]} />
           <PerspectiveCamera makeDefault position={[0, 1.65, 4.9]} fov={36} />
           <ViewerScene
             width={safeWidth}
@@ -399,6 +399,7 @@ export const RollerBlindViewer = ({
             depth={safeDepth}
             fabricColor={fabricColor}
             hardwareColor={hardwareColor}
+            wallColor={wallColor}
           />
           <OrbitControls
             enablePan={false}

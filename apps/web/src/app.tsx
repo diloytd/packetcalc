@@ -8,6 +8,7 @@ type ViewerConfig = {
   depth: number;
   fabricColor: string;
   hardwareColor: string;
+  wallColor: string;
 };
 
 type DimensionKey = "width" | "height" | "depth";
@@ -39,6 +40,7 @@ export const App = () => {
     depth: 140,
     fabricColor: "#d9c0a4",
     hardwareColor: "#8d93a0",
+    wallColor: "#dce9ff",
   });
 
   const dimensionsLabel = useMemo(() => {
@@ -58,7 +60,10 @@ export const App = () => {
     }));
   };
 
-  const handleColorChange = (key: "fabricColor" | "hardwareColor", value: string) => {
+  const handleColorChange = (
+    key: "fabricColor" | "hardwareColor" | "wallColor",
+    value: string,
+  ) => {
     setConfig((currentConfig) => ({
       ...currentConfig,
       [key]: value,
@@ -140,35 +145,6 @@ export const App = () => {
             </div>
           </div>
 
-          <div className="control-field">
-            <label className="control-field__label" htmlFor="blind-depth">
-              Глубина системы
-            </label>
-            <div className="control-field__inputs">
-              <input
-                id="blind-depth"
-                className="control-field__range"
-                type="range"
-                min={dimensionLimits.depth.min}
-                max={dimensionLimits.depth.max}
-                step={dimensionLimits.depth.step}
-                value={config.depth}
-                onChange={(event) => handleDimensionChange("depth", event.target.value)}
-                aria-label="Глубина системы рулонной шторы"
-              />
-              <input
-                className="control-field__number"
-                type="number"
-                min={dimensionLimits.depth.min}
-                max={dimensionLimits.depth.max}
-                step={dimensionLimits.depth.step}
-                value={config.depth}
-                onChange={(event) => handleDimensionChange("depth", event.target.value)}
-                aria-label="Числовое значение глубины системы"
-              />
-            </div>
-          </div>
-
           <div className="control-field control-field--colors">
             <label className="control-field__label" htmlFor="fabric-color">
               Цвет ткани
@@ -202,6 +178,58 @@ export const App = () => {
               <span className="control-field__value">{config.hardwareColor}</span>
             </div>
           </div>
+
+          <details className="advanced-settings">
+            <summary className="advanced-settings__summary">Показать расширенные параметры</summary>
+
+            <div className="advanced-settings__content">
+              <div className="control-field">
+                <label className="control-field__label" htmlFor="blind-depth">
+                  Глубина системы
+                </label>
+                <div className="control-field__inputs">
+                  <input
+                    id="blind-depth"
+                    className="control-field__range"
+                    type="range"
+                    min={dimensionLimits.depth.min}
+                    max={dimensionLimits.depth.max}
+                    step={dimensionLimits.depth.step}
+                    value={config.depth}
+                    onChange={(event) => handleDimensionChange("depth", event.target.value)}
+                    aria-label="Глубина системы рулонной шторы"
+                  />
+                  <input
+                    className="control-field__number"
+                    type="number"
+                    min={dimensionLimits.depth.min}
+                    max={dimensionLimits.depth.max}
+                    step={dimensionLimits.depth.step}
+                    value={config.depth}
+                    onChange={(event) => handleDimensionChange("depth", event.target.value)}
+                    aria-label="Числовое значение глубины системы"
+                  />
+                </div>
+              </div>
+
+              <div className="control-field control-field--colors">
+                <label className="control-field__label" htmlFor="wall-color">
+                  Цвет стен
+                </label>
+                <div className="control-field__color-row">
+                  <input
+                    id="wall-color"
+                    className="control-field__color"
+                    type="color"
+                    value={config.wallColor}
+                    onChange={(event) => handleColorChange("wallColor", event.target.value)}
+                    aria-label="Выбрать цвет стен"
+                  />
+                  <span className="control-field__value">{config.wallColor}</span>
+                </div>
+              </div>
+            </div>
+          </details>
         </aside>
 
         <section className="viewer-panel" aria-label="3D-сцена">
@@ -211,6 +239,7 @@ export const App = () => {
             depth={config.depth}
             fabricColor={config.fabricColor}
             hardwareColor={config.hardwareColor}
+            wallColor={config.wallColor}
           />
         </section>
       </section>
