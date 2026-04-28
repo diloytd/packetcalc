@@ -3,7 +3,8 @@ import { fileURLToPath } from "node:url";
 import { defineConfig } from "vite";
 
 const webRoot = path.dirname(fileURLToPath(import.meta.url));
-const webNodeModules = path.resolve(webRoot, "node_modules");
+const workspaceRoot = path.resolve(webRoot, "../..");
+const rootNodeModules = path.resolve(workspaceRoot, "node_modules");
 
 export default defineConfig({
   resolve: {
@@ -17,14 +18,14 @@ export default defineConfig({
         webRoot,
         "../../packages/shared/src",
       ),
-      react: path.resolve(webNodeModules, "react"),
-      "react/jsx-runtime": path.resolve(webNodeModules, "react/jsx-runtime.js"),
+      react: path.resolve(rootNodeModules, "react"),
+      "react/jsx-runtime": path.resolve(rootNodeModules, "react/jsx-runtime.js"),
       "react/jsx-dev-runtime": path.resolve(
-        webNodeModules,
+        rootNodeModules,
         "react/jsx-dev-runtime.js",
       ),
-      "react-dom": path.resolve(webNodeModules, "react-dom"),
-      "react-dom/client": path.resolve(webNodeModules, "react-dom/client.js"),
+      "react-dom": path.resolve(rootNodeModules, "react-dom"),
+      "react-dom/client": path.resolve(rootNodeModules, "react-dom/client.js"),
     },
   },
   server: {
