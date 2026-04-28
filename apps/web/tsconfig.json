@@ -9,7 +9,7 @@
     "noEmit": true,
     "baseUrl": ".",
     "paths": {
-      "@roller-blind-viewer/roller-blind-viewer": [
+      "@diloytd/roller-blind-viewer": [
         "../../packages/roller-blind-viewer/src/index.ts"
       ],
       "@roller-blind-viewer/shared": ["../../packages/shared/src/index.ts"]

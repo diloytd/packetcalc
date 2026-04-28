@@ -1,15 +1,33 @@
 {
-  "name": "@roller-blind-viewer/roller-blind-viewer",
+  "name": "@diloytd/roller-blind-viewer",
   "version": "0.0.1",
+  "description": "React-компоненты превью рулонной шторы (React Three Fiber)",
   "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diloytd/packetcalc.git"
+  },
+  "bugs": {
+    "url": "https://github.com/diloytd/packetcalc/issues"
+  },
+  "homepage": "https://github.com/diloytd/packetcalc#readme",
+  "keywords": [
+    "react",
+    "three.js",
+    "react-three-fiber",
+    "roller-blind",
+    "3d"
+  ],
   "publishConfig": {
-    "access": "public"
+    "registry": "https://npm.pkg.github.com"
   },
   "sideEffects": [
     "**/*.css"
   ],
   "files": [
-    "dist"
+    "dist",
+    "README.md"
   ],
   "main": "./dist/index.js",
   "module": "./dist/index.js",

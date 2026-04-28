@@ -10,7 +10,7 @@ export default defineConfig({
   resolve: {
     dedupe: ["react", "react-dom"],
     alias: {
-      "@roller-blind-viewer/roller-blind-viewer": path.resolve(
+      "@diloytd/roller-blind-viewer": path.resolve(
         webRoot,
         "../../packages/roller-blind-viewer/src",
       ),

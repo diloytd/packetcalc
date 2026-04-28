@@ -1,4 +1,4 @@
-import { RollerBlindViewer } from "@roller-blind-viewer/roller-blind-viewer";
+import { RollerBlindViewer } from "@diloytd/roller-blind-viewer";
 import { appName } from "@roller-blind-viewer/shared";
 import { useMemo, useState } from "react";
 
